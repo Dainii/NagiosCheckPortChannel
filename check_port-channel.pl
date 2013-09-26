@@ -114,7 +114,7 @@ print $chan2 "show etherchannel summary | begin $po\n" or die $plugin_nagios->na
 while (<$chan2>)
 {
  my $line = $_;
- if($line =~ m/\QPo$po/i or $line =~ m/^\h+(Fa|Gi|Te)/i )
+ if($line =~ m/\QPo$po/i or $line =~ m/^\s +(Fa|Gi|Te)/i )
   {
    $poinfo .= $line;
   }
