@@ -14,7 +14,7 @@ use Net::SSH2;
 use vars qw/ $VERSION /;
  
 # Version du plugin
-$VERSION = '1.0';
+$VERSION = '1.1';
  
 my $LICENCE
   = "Ce plugin Nagios est gratuit et libre de droits, et vous pouvez l'utiliser à votre convenance."
@@ -108,15 +108,15 @@ $chan2->shell();
 sleep(1);
 
 # Send command to the switch
-print $chan2 "show etherchannel summary | include $po\n" or die $plugin_nagios->nagios_exit( CRITICAL, "Unable to execute this command \n");
+print $chan2 "show etherchannel summary | begin $po\n" or die $plugin_nagios->nagios_exit( CRITICAL, "Unable to execute this command \n");
 
 # result handling
 while (<$chan2>)
 {
  my $line = $_;
- if($line =~ m/\QPo$po/i)
+ if($line =~ m/\QPo$po/i or $line =~ m/\QGi/i )
   {
-   $poinfo = $line;
+   $poinfo .= $line;
   }
 }
 
@@ -160,7 +160,7 @@ if ($poinfo =~ m/\QPo$po(SU)/)
  {
   open my $temp, '>', \$message_warning or die "unable to open variable: $!";
   # A member is down 
-  print $temp "Port-channel $po is up. One or more interfaces are down. ";
+  print $temp "Port-channel $po is up. One or more interfaces are down. \n";
   
   # print interfaces
   print $temp "Interfaces UP: ";
@@ -174,7 +174,7 @@ if ($poinfo =~ m/\QPo$po(SU)/)
   }
   
   #print down interfaces
-  print $temp "Interfaces DOWN: ";
+  print $temp "\nInterfaces DOWN: ";
   while (<@membersarray>)
   {
    my $line = $_;
