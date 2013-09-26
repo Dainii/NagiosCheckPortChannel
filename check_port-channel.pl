@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 #===============================================================================
 # Auteur : Etienne Ischer
-# Date   : 10/09/2013 09:16:24
+# Date   : 26.09.2013 16:44
 # But    : Check states members of a Port-channel
 #===============================================================================
 use strict;
@@ -14,7 +14,7 @@ use Net::SSH2;
 use vars qw/ $VERSION /;
  
 # Version du plugin
-$VERSION = '1.1';
+$VERSION = '1.2';
  
 my $LICENCE
   = "Ce plugin Nagios est gratuit et libre de droits, et vous pouvez l'utiliser à votre convenance."
